@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="../assets/images/favicon-32x32.png"
+		/>
+		<link rel="stylesheet" href="./dist/style.css" />
+		<script defer src="./index.js"></script>
+		<title>Frontend Mentor | Password generator app</title>
+	</head>
+	<body>
+		<main class="main-content">
+			<header>
+				<h1 class="title">Password Generator</h1>
+			</header>
+
+			<section
+				class="app-container"
+				aria-labelledby="password-generator-heading"
+			>
+				<!-- Password Preview Section -->
+				<div class="password-preview" aria-labelledby="password-preview-label">
+					<textarea
+						name="password-output"
+						id="password-output"
+						rows="1"
+						wrap="hard"
+						readonly
+						aria-live="polite"
+						placeholder="P4$5W0rD!"
+						
+					></textarea
+					>
+					<p class="copied">Copied!</p>
+					<button id="copy-btn" type="button" aria-label="Copy password to clipboard">
+					</button>
+				</div>
+
+				<!-- Password Settings Section -->
+				<section
+					class="password-settings"
+					aria-labelledby="password-settings-heading"
+				>
+					<!-- Character Length Slider -->
+					<div class="password-slider">
+						<div class="labels-group">
+							<span class="slider-label">Character Length</span>
+							<span class="slider-value" id="slider-value" aria-live="polite">1</span>
+						</div>
+						<div id ="slider" class="slider-container" min="1" max="18">
+							<!-- Slider Track -->
+							<div class="slider-track">
+								<!-- Active Range -->
+								<div class="slider-range"></div>
+								<!-- Thumb -->
+								<div class="slider-thumb" draggable="true"></div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Character Options Checkboxes -->
+					<fieldset class="checkbox-group">
+						<div>
+							<input
+								type="checkbox"
+								id="Uppercase"
+								name="character-options"
+								value="uppercase"
+								checked
+							/>
+							<label for="Uppercase">Include Uppercase Letters</label>
+						</div>
+						<div>
+							<input
+								type="checkbox"
+								id="LowerCase"
+								name="character-options"
+								value="lowercase"
+							/>
+							<label for="LowerCase">Include Lowercase Letters</label>
+						</div>
+						<div>
+							<input
+								type="checkbox"
+								id="Numbers"
+								name="character-options"
+								value="numbers"
+							/>
+							<label for="Numbers">Include Numbers</label>
+						</div>
+						<div>
+							<input
+								type="checkbox"
+								id="Symbols"
+								name="character-options"
+								value="symbols"
+							/>
+							<label for="Symbols">Include Symbols</label>
+						</div>
+					</fieldset>
+
+					<!-- Password Strength Indicator -->
+					<div class="password-strength-wrapper">
+						<p id="password-strength-label">Strength</p>
+						<div class="strength-bars" aria-labelledby="password-strength-label">
+							<span id="password-strength-text"></span>
+							<div class="lvl-bar" aria-hidden="true"></div>
+							<div class="lvl-bar" aria-hidden="true"></div>
+							<div class="lvl-bar" aria-hidden="true"></div>
+							<div class="lvl-bar" aria-hidden="true"></div>
+						</div>
+					</div>
+					<button
+						type="button"
+						id="generate-password-btn"
+						class="generate-password-btn"
+						aria-label="Generate a new password"
+					>
+						Generate <i class="arrow-icon" aria-hidden="true"></i>
+					</button>
+				</section>
+			</section>
+		</main>
+	</body>
+</html>
