@@ -3,15 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	const passwordOutput = document.getElementById("password-output");
 	const copyBtn = document.getElementById("copy-btn");
 	const copied = document.querySelector(".copied");
-	const sliderContainer = document.querySelector(".slider-container");
-	const sliderValue = document.getElementById("slider-value");
+	const sliderValue = document.getElementById("password-length");
+	const slider = document.getElementById("password-length-slider");
 	const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 	const strengthText = document.getElementById("password-strength-text");
 	const strengthBars = document.querySelectorAll(".lvl-bar");
 	const generateButton = document.getElementById("generate-password-btn");
-	const track = document.querySelector(".slider-track");
-	const range = document.querySelector(".slider-range");
-	const thumb = document.querySelector(".slider-thumb");
 
 	// Character sets and colors
 	const charSets = {
@@ -28,25 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		green: "#A4FFAF",
 		offWhite: "#e6e5ea",
 	};
-
-	// Slider Configuration
-	const trackRect = track.getBoundingClientRect();
-	const trackWidth = trackRect.width;
-	const max = parseInt(sliderContainer.getAttribute("max"), 10);
-	const min = parseInt(sliderContainer.getAttribute("min"), 10);
-
-	// Helper: Update slider position
-	const updateSlider = (position) => {
-		const clampedPosition = Math.max(0, Math.min(position, trackWidth));
-		const percentage = (clampedPosition / trackWidth) * 100;
-		const sliderVal = Math.round((percentage / 100) * (max - min) + min);
-
-		thumb.style.left = `${percentage}%`;
-		range.style.width = `${percentage}%`;
-		sliderValue.textContent = sliderVal;
-	};
-
+    
 	// Helper: Evaluate password strength
+    
 	const evaluatePasswordStrength = (password) => {
 		let score = 0;
 		if (/[A-Z]/.test(password)) score++;
@@ -134,36 +115,25 @@ document.addEventListener("DOMContentLoaded", () => {
 			// Hide the element completely after fade-out completes
 			setTimeout(() => {
 				copied.style.display = "none"; // Completely hide it
-			}, 1600); // Total delay: fade-out duration (500ms) + initial delay (1500ms)
+			}, 1600); // After 1.6 seconds
 		}
 	}
 
-	// Dragging Slider Thumb
-	const startDragging = (startEvent) => {
-		startEvent.preventDefault();
+    // Set slider value
+    sliderValue.textContent = slider.value;
+    const updateSliderGradient = () => {
+        const value = parseInt(slider.value, 10);
+        const min = parseInt(slider.min, 10);
+        const max = parseInt(slider.max, 10);
+        const percentage = ((value - min) / (max - min)) * 100;
 
-		const moveEventType =
-			startEvent.type === "mousedown" ? "mousemove" : "touchmove";
-		const endEventType =
-			startEvent.type === "mousedown" ? "mouseup" : "touchend";
+        // Update the slider's background gradient
+        slider.style.background = `linear-gradient(to right, #A4FFAF ${percentage}%, #18171f ${percentage}%)`;
+        sliderValue.textContent = slider.value;
+    };
 
-		const onMove = (moveEvent) => {
-			const clientX = moveEvent.clientX || moveEvent.touches[0].clientX;
-			updateSlider(clientX - trackRect.left);
-		};
-
-		const onStop = () => {
-			document.removeEventListener(moveEventType, onMove);
-			document.removeEventListener(endEventType, onStop);
-		};
-
-		document.addEventListener(moveEventType, onMove);
-		document.addEventListener(endEventType, onStop);
-	};
-
-	// Event Listeners
-	thumb.addEventListener("mousedown", startDragging);
-	thumb.addEventListener("touchstart", startDragging, { passive: false });
+    // Event Listeners
+    slider.addEventListener("input", updateSliderGradient);
 	generateButton.addEventListener("click", generatePassword);
 	copyBtn.addEventListener("click", copyToClipboard);
 
@@ -174,7 +144,4 @@ document.addEventListener("DOMContentLoaded", () => {
 			);
 		});
 	});
-
-	// Initialize slider
-	updateSlider(0);
 });
